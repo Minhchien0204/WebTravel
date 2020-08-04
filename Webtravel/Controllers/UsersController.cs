@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Webtravel.Models;
+using Webtravel.Service;
 
 namespace Webtravel.Controllers
 {
@@ -15,39 +17,57 @@ namespace Webtravel.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly WebtravelContext _context;
+        /*private readonly WebtravelContext _context;*/
 
-        public UsersController(WebtravelContext context)
+        private IUserService _userService;
+        public UsersController(
+            WebtravelContext context,
+            IUserService userService
+            )
         {
-            _context = context;
+           /* _context = context;*/
+            _userService = userService;
         }
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody]Authenticate authenticate)
+        {
+            var user = _userService.Authenticate(authenticate.UserNames, authenticate.Passwords);
 
+            if (user == null)
+                return BadRequest(new { message = " username hoac password khong chinh xac!" });
+
+            return Ok(user);
+        }
+        [Authorize(Roles = Role.Admin)]
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Users>>> GetUsers()
+        public IActionResult GetAll()
         {
-            return await _context.Users.ToListAsync();
+            var users = _userService.GetAll();
+            return Ok(users);
         }
-
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Users>> GetUsers(int id)
+        public IActionResult GetById(int id)
         {
-            var users = await _context.Users.FindAsync(id);
+            // chi co admin moi co the xem ho so cua ng khac
+            var currentUserId = int.Parse(User.Identity.Name);
+            if ( id != currentUserId && !User.IsInRole(Role.Admin))
+                return Forbid();
 
-            if (users == null)
-            {
+            var user = _userService.GetById(id);
+
+            if (user == null)
                 return NotFound();
-            }
 
-            return users;
+            return Ok(user);
         }
-
         // PUT: api/Users/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsers(int id, Users users)
+        /*public async Task<IActionResult> PutUsers(int id, Users users)
         {
             if (id != users.IdUser)
             {
@@ -73,58 +93,22 @@ namespace Webtravel.Controllers
             }
 
             return NoContent();
-        }
+        }*/
 
-        // POST: api/Users
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Users>> PostUsers(Users users)
-        {
-
-            _context.Users.Add(users);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetUsers), new { id = users.IdUser }, users);
-           /* _context.Users.Add(users);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (UsersExists(users.IdUser))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetUsers", new { id = users.IdUser }, users);*/
-        }
+       
+        
 
         // DELETE: api/Users/5
+        [Authorize(Roles = Role.Admin)]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Users>> DeleteUsers(int id)
+       public IActionResult Delete(int id)
         {
-            var users = await _context.Users.FindAsync(id);
-            if (users == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(users);
-            await _context.SaveChangesAsync();
-
-            return users;
+            _userService.Delete(id);
+            return Ok();
         }
-
-        private bool UsersExists(int id)
+       /* private bool UsersExists(int id)
         {
             return _context.Users.Any(e => e.IdUser == id);
-        }
+        }*/
     }
 }
