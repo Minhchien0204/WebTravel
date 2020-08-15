@@ -1,0 +1,176 @@
+/* :root
+{
+    --primary: #111B54;
+    --light: #ffffff;
+    --grey: #efefef;
+}
+
+body{
+    overflow: hidden;
+    font-family: 'Muli', sans-serif;
+    font-weight: 300;
+    color: var(--primary);
+}
+
+a:hover
+{
+    text-decoration: none;
+}
+
+
+
+
+#sidebar-container
+{
+    min-height: 100vh;
+}
+
+.bg-light { background-color: var(--light) !important;}
+
+#sidebar-container
+{
+    padding: .875rem 1.25rem;
+    background: darkturquoise;
+
+}
+
+#sidebar-container .menu
+{
+    width: 18rem;
+} */
+
+/* .container-fluid
+{
+   max-width: 100%;
+}
+
+.sidebar
+{
+    min-height:  100vh;
+    width: 300px;
+    background: rgb(189, 209, 72) ;
+}
+
+.row
+{
+    min-height: 100vh;
+    margin: 0;
+}
+
+
+.list-item
+{
+    font-size: 20px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.list-item:hover
+{
+    color: black;
+}
+.list-item::before
+{
+    position: absolute;
+    height: 100%;
+
+} */
+
+.user
+{
+    float: right;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+#header
+{
+    background: paleturquoise;
+}
+
+#content
+{
+    display: flex;
+    height: 100%;
+}
+
+a 
+{
+    text-decoration: none;
+    color:black ;
+}
+
+.page-content
+{
+    padding: 50px;
+    width: 1000px;
+}
+
+.sidebar
+{
+    height: 100%;
+   
+    background:rgb(221, 190, 190);
+}
+
+
+.list-items
+{
+    padding-top: 20px;
+}
+
+.list-item
+{
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-size: 20px;
+    padding: 20px;
+    font-family: 'Open Sans';
+    cursor: pointer;
+}
+
+.list-item:hover
+{
+    color: rgb(54, 46, 31);
+
+}
+
+.list-item:hover.selected
+{
+    background: rgb(122, 100, 100);
+}
+
+.list-item::before
+{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 5px;
+    background-color: black;
+    opacity: 0;
+
+    transform: scaleY(0);
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.list-item:hover::before
+{
+    opacity: 0.5;
+    transform: scaleY(0.5 );
+}
+
+.list-item.selected::before
+{
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+.list-item.list-item:hover::before
+{
+    opacity: 1;
+    transform: scaleY(1);
+
+}

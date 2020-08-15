@@ -1,33 +1,50 @@
-<div class="container">
+
     <h1>Danh sach User</h1>
+      <div class="row d-flex justify-content-between">
+          <a class="btn btn-outline-success mt-3 mb-3 ml-5"> Thêm User </a>
+          <form class="form-inline align-self-center mb-3" id="searchAndFilterForm" method="Get">
+              <div class="form-row align-items-center ">
+                  <div class="search-user">
+                      <input class="form-control" type="text" name="search" autocomplete="off" placeholder="&#61442;  Search">
+                  </div>
+              </div>
+              <div class="col-auto mt-1 mr-3">
+                  <button id="search" class="btn btn-primary mb-2">Tìm Kiếm</button>
+              </div>
+          </form>
+      </div>
     <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th>#</th>
+            <th>ID</th>
+            <th>Phone</th>
+            <th>Dia Chi</th>
+            <th>Ngay Sinh</th>
+            <th>Gioi Tinh</th>
+            <th>Loai Nguoi Dung</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
+          <!-- <tr  *ngFor="let item of users |  let i = index "> -->
+              <!-- <td>{{ i + 1}}</td>
+              <td>{{item.IdUser}}</td>
+              <td>{{item.UserNames}}</td>
+              <td>{{item.Phone}}</td>
+              <td>{{item.Diachi}}</td>
+              <td>{{item.Ngaysinh}}</td>
+              <td *ngIf="item.Gioitinh">Nam</td>
+              <td *ngIf="!item.Gioitinh">Nữ</td>
+              <td>{{item.Role}}</td> -->
+              <td>
+                <button type="button" class="btn btn-info ml-2 mt-1"  > Sửa </button>
+
+                <button type="button" class="btn btn-danger ml-2 mt-1">
+                    Xóa
+                </button>
+              </td>
           </tr>
         </tbody>
       </table>
-</div>
